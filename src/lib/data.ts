@@ -1,9 +1,16 @@
 
 import fs from 'fs/promises';
 import path from 'path';
-import type { JiraIssue, PccpsTask, Holiday, Project } from './types';
+import type { JiraIssue, PccpsTask, Holiday, Project, TeamMember, AssignedJiraIssue } from './types';
 
 const dataPath = path.join(process.cwd(), 'data');
+
+export const teamMembers: TeamMember[] = [
+    { id: 'andrey-ivanov', name: "Андрей Иванов", role: "Team Lead", avatar: "https://i.pravatar.cc/150?u=a042581f4e29026704d" },
+    { id: 'elena-petrova', name: "Елена Петрова", role: "Разработчик", avatar: "https://i.pravatar.cc/150?u=a042581f4e29026704e" },
+    { id: 'sergey-sidorov', name: "Сергей Сидоров", role: "QA Инженер", avatar: "https://i.pravatar.cc/150?u=a042581f4e29026704f" },
+    { id: 'olga-smirnova', name: "Ольга Смирнова", role: "Аналитик", avatar: "https://i.pravatar.cc/150?u=a042581f4e29026704g" },
+];
 
 // A mock function to get projects. In a real app, this would fetch from a database.
 export async function getProjects(): Promise<Project[]> {
@@ -14,12 +21,23 @@ export async function getProjects(): Promise<Project[]> {
     ]
 }
 
-export async function getJiraIssues(): Promise<JiraIssue[]> {
+// In a real app, the assignee would come from Jira.
+// Here we mock it by assigning tasks to team members in a round-robin fashion.
+function assignIssues(issues: JiraIssue[]): AssignedJiraIssue[] {
+  return issues.map((issue, index) => ({
+    ...issue,
+    assignee: teamMembers[index % teamMembers.length]
+  }));
+}
+
+
+export async function getJiraIssues(): Promise<AssignedJiraIssue[]> {
   const filePath = path.join(dataPath, 'search.json');
   try {
     const fileContents = await fs.readFile(filePath, 'utf8');
     const data = JSON.parse(fileContents);
-    return data.issues as JiraIssue[];
+    // return data.issues as JiraIssue[];
+    return assignIssues(data.issues as JiraIssue[]);
   } catch (error) {
     console.error('Failed to read or parse search.json:', error);
     return [];

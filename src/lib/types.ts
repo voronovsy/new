@@ -8,6 +8,10 @@ export interface JiraIssue {
   changelog: Changelog;
 }
 
+export interface AssignedJiraIssue extends JiraIssue {
+  assignee: TeamMember;
+}
+
 export interface IssueFields {
   summary: string;
   issuetype: IssueType;
@@ -124,4 +128,11 @@ export type PredictWorkloadAndTaskCompletionOutput = {
     estimatedCompletionDate: string;
     potentialBottlenecks: string;
     processImprovementOpportunities: string;
+}
+
+export interface TeamMember {
+    id: string;
+    name: string;
+    role: string;
+    avatar: string;
 }

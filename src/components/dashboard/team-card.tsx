@@ -1,4 +1,7 @@
 
+"use client"
+
+import Link from "next/link"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Users, User, Briefcase, Activity } from "lucide-react"
@@ -12,10 +15,10 @@ type TeamCardProps = {
 }
 
 const teamMembers = [
-    { name: "Андрей Иванов", role: "Team Lead", avatar: "https://i.pravatar.cc/150?u=a042581f4e29026704d" },
-    { name: "Елена Петрова", role: "Разработчик", avatar: "https://i.pravatar.cc/150?u=a042581f4e29026704e" },
-    { name: "Сергей Сидоров", role: "QA Инженер", avatar: "https://i.pravatar.cc/150?u=a042581f4e29026704f" },
-    { name: "Ольга Смирнова", role: "Аналитик", avatar: "https://i.pravatar.cc/150?u=a042581f4e29026704g" },
+    { id: 'andrey-ivanov', name: "Андрей Иванов", role: "Team Lead", avatar: "https://i.pravatar.cc/150?u=a042581f4e29026704d" },
+    { id: 'elena-petrova', name: "Елена Петрова", role: "Разработчик", avatar: "https://i.pravatar.cc/150?u=a042581f4e29026704e" },
+    { id: 'sergey-sidorov', name: "Сергей Сидоров", role: "QA Инженер", avatar: "https://i.pravatar.cc/150?u=a042581f4e29026704f" },
+    { id: 'olga-smirnova', name: "Ольга Смирнова", role: "Аналитик", avatar: "https://i.pravatar.cc/150?u=a042581f4e29026704g" },
 ]
 
 export default function TeamCard({ issues, project, className }: TeamCardProps) {
@@ -65,8 +68,8 @@ export default function TeamCard({ issues, project, className }: TeamCardProps) 
         <div>
             <h3 className="text-sm font-medium mb-4">Участники команды</h3>
             <div className="space-y-4">
-                {teamMembers.map((member, index) => (
-                    <div key={index} className="flex items-center">
+                {teamMembers.map((member) => (
+                    <Link href={`/employees/${member.id}`} key={member.id} className="flex items-center hover:bg-muted/50 p-2 rounded-lg -m-2 transition-colors">
                         <Avatar className="h-9 w-9">
                             <AvatarImage src={member.avatar} alt={member.name} />
                             <AvatarFallback>{member.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
@@ -75,7 +78,7 @@ export default function TeamCard({ issues, project, className }: TeamCardProps) 
                             <p className="text-sm font-medium leading-none">{member.name}</p>
                             <p className="text-sm text-muted-foreground">{member.role}</p>
                         </div>
-                    </div>
+                    </Link>
                 ))}
             </div>
         </div>
