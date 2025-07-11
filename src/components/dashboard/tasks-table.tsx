@@ -55,6 +55,28 @@ const getPriorityVariant = (priorityName?: string) => {
     return priorityName ? priorityVariantMap[priorityName] || 'outline' : 'outline';
 };
 
+const statusVariantMap: { [key: string]: "default" | "secondary" | "destructive" | "outline" } = {
+    'Выполнено': 'default',
+    'In Progress': 'secondary',
+    'Настройка': 'secondary',
+    'В разработке': 'secondary',
+    'Тестирование': 'secondary',
+    'Аналитика': 'secondary',
+    'Done': 'default',
+};
+
+const getStatusVariant = (statusName?: string) => {
+    if (!statusName) return 'outline';
+    // Handle Russian and English variants of status categories
+    if (statusName.toLowerCase().includes('done') || statusName.toLowerCase().includes('выполнено')) {
+        return 'default';
+    }
+    if (['in progress', 'настройка', 'в разработке', 'тестирование', 'аналитика'].includes(statusName.toLowerCase())) {
+        return 'secondary';
+    }
+    return statusVariantMap[statusName] || 'outline';
+};
+
 export default function TasksTable({ issues, project }: TasksTableProps) {
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
@@ -129,12 +151,12 @@ export default function TasksTable({ issues, project }: TasksTableProps) {
     {
         accessorKey: "fields.issuetype.name",
         header: "Тип",
-        cell: ({ row }) => <div>{row.original.fields.issuetype.name}</div>,
+        cell: ({ row }) => <Badge variant="outline">{row.original.fields.issuetype.name}</Badge>,
     },
     {
       accessorKey: "fields.status.name",
       header: "Статус",
-      cell: ({ row }) => <Badge variant="outline">{row.original.fields.status.name}</Badge>,
+      cell: ({ row }) => <Badge variant={getStatusVariant(row.original.fields.status.name)}>{row.original.fields.status.name}</Badge>,
     },
     {
         accessorKey: "fields.priority.name",
