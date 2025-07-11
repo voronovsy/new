@@ -65,7 +65,7 @@ export default function TasksTable({ issues, project }: TasksTableProps) {
   const downloadAsCSV = (data: JiraIssue[]) => {
     if (!data.length) return;
 
-    const headers = ["Key", "Summary", "Type", "Status", "Priority", "Created Date"];
+    const headers = ["Ключ", "Название", "Тип", "Статус", "Приоритет", "Дата создания"];
     const csvContent = [
       headers.join(','),
       ...data.map(issue => [
@@ -78,12 +78,12 @@ export default function TasksTable({ issues, project }: TasksTableProps) {
       ].join(','))
     ].join('\n');
     
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const blob = new Blob(["\ufeff" + csvContent], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement("a");
     if (link.download !== undefined) {
       const url = URL.createObjectURL(blob);
       link.setAttribute("href", url);
-      link.setAttribute("download", `${project.name}_tasks.csv`);
+      link.setAttribute("download", `${project.name}_задачи.csv`);
       link.style.visibility = 'hidden';
       document.body.appendChild(link);
       link.click();
@@ -101,14 +101,14 @@ export default function TasksTable({ issues, project }: TasksTableProps) {
             (table.getIsSomePageRowsSelected() && "indeterminate")
           }
           onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-          aria-label="Select all"
+          aria-label="Выбрать все"
         />
       ),
       cell: ({ row }) => (
         <Checkbox
           checked={row.getIsSelected()}
           onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="Select row"
+          aria-label="Выбрать строку"
         />
       ),
       enableSorting: false,
@@ -116,24 +116,24 @@ export default function TasksTable({ issues, project }: TasksTableProps) {
     },
     {
         accessorKey: "key",
-        header: "Key",
+        header: "Ключ",
         cell: ({ row }) => (
           <div className="font-medium">{row.getValue("key")}</div>
         ),
     },
     {
       accessorKey: "fields.summary",
-      header: "Summary",
+      header: "Название",
       cell: ({ row }) => <div className="min-w-[250px]">{row.original.fields.summary}</div>,
     },
     {
         accessorKey: "fields.issuetype.name",
-        header: "Type",
+        header: "Тип",
         cell: ({ row }) => <div>{row.original.fields.issuetype.name}</div>,
     },
     {
       accessorKey: "fields.status.name",
-      header: "Status",
+      header: "Статус",
       cell: ({ row }) => <Badge variant="outline">{row.original.fields.status.name}</Badge>,
     },
     {
@@ -144,7 +144,7 @@ export default function TasksTable({ issues, project }: TasksTableProps) {
                 variant="ghost"
                 onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
               >
-                Priority
+                Приоритет
                 <ArrowUpDown className="ml-2 h-4 w-4" />
               </Button>
             )
@@ -159,7 +159,7 @@ export default function TasksTable({ issues, project }: TasksTableProps) {
                 variant="ghost"
                 onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                 >
-                Created
+                Создана
                 <ArrowUpDown className="ml-2 h-4 w-4" />
                 </Button>
             )
@@ -175,7 +175,7 @@ export default function TasksTable({ issues, project }: TasksTableProps) {
         return (
           <>
             <Button variant="ghost" className="h-8 w-8 p-0" onClick={() => setSelectedTask(task)}>
-              <span className="sr-only">Open prediction</span>
+              <span className="sr-only">Открыть прогноз</span>
               <Bot className="h-4 w-4" />
             </Button>
           </>
@@ -207,13 +207,13 @@ export default function TasksTable({ issues, project }: TasksTableProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{project.name} Tasks</CardTitle>
+        <CardTitle>Задачи проекта {project.name}</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="w-full">
           <div className="flex items-center py-4">
             <Input
-              placeholder="Filter tasks by summary..."
+              placeholder="Фильтр по названию..."
               value={(table.getColumn("fields.summary")?.getFilterValue() as string) ?? ""}
               onChange={(event) =>
                 table.getColumn("fields.summary")?.setFilterValue(event.target.value)
@@ -223,12 +223,12 @@ export default function TasksTable({ issues, project }: TasksTableProps) {
             <div className="ml-auto flex items-center gap-2">
                 <Button variant="outline" size="sm" onClick={() => downloadAsCSV(table.getFilteredRowModel().rows.map(row => row.original))}>
                     <Download className="h-4 w-4" />
-                    <span className="sr-only sm:not-sr-only sm:ml-2">Export</span>
+                    <span className="sr-only sm:not-sr-only sm:ml-2">Экспорт</span>
                 </Button>
                 <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <Button variant="outline" size="sm">
-                    Columns <ChevronDown className="ml-2 h-4 w-4" />
+                    Столбцы <ChevronDown className="ml-2 h-4 w-4" />
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
@@ -237,7 +237,13 @@ export default function TasksTable({ issues, project }: TasksTableProps) {
                     .filter((column) => column.getCanHide())
                     .map((column) => {
                         // a bit of a hack to show a friendlier name
-                        const displayName = column.id.includes('.') ? column.id.split('.').pop() : column.id
+                        let displayName = column.id.includes('.') ? column.id.split('.').pop() : column.id
+                        if (displayName === 'summary') displayName = 'Название';
+                        if (displayName === 'name') displayName = 'Тип';
+                        if (displayName === 'status') displayName = 'Статус';
+                        if (displayName === 'priority') displayName = 'Приоритет';
+                        if (displayName === 'created') displayName = 'Создана';
+
                         return (
                         <DropdownMenuCheckboxItem
                             key={column.id}
@@ -298,7 +304,7 @@ export default function TasksTable({ issues, project }: TasksTableProps) {
                       colSpan={columns.length}
                       className="h-24 text-center"
                     >
-                      No results.
+                      Нет данных.
                     </TableCell>
                   </TableRow>
                 )}
@@ -307,8 +313,8 @@ export default function TasksTable({ issues, project }: TasksTableProps) {
           </div>
           <div className="flex items-center justify-end space-x-2 py-4">
             <div className="flex-1 text-sm text-muted-foreground">
-              {table.getFilteredSelectedRowModel().rows.length} of{" "}
-              {table.getFilteredRowModel().rows.length} row(s) selected.
+              Выбрано {table.getFilteredSelectedRowModel().rows.length} из{" "}
+              {table.getFilteredRowModel().rows.length} строк(и).
             </div>
             <div className="space-x-2">
               <Button
@@ -317,7 +323,7 @@ export default function TasksTable({ issues, project }: TasksTableProps) {
                 onClick={() => table.previousPage()}
                 disabled={!table.getCanPreviousPage()}
               >
-                Previous
+                Назад
               </Button>
               <Button
                 variant="outline"
@@ -325,7 +331,7 @@ export default function TasksTable({ issues, project }: TasksTableProps) {
                 onClick={() => table.nextPage()}
                 disabled={!table.getCanNextPage()}
               >
-                Next
+                Вперед
               </Button>
             </div>
           </div>

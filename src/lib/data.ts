@@ -8,9 +8,9 @@ const dataPath = path.join(process.cwd(), 'data');
 // A mock function to get projects. In a real app, this would fetch from a database.
 export async function getProjects(): Promise<Project[]> {
     return [
-        { id: 'pccps', name: 'PCCPS', description: 'Настройка акций на ПЦ', status: 'Active' },
-        { id: 'phoenix', name: 'Project Phoenix', description: 'Customer loyalty platform', status: 'Active' },
-        { id: 'ares', name: 'Project Ares', description: 'Internal security audit tool', status: 'On Hold' },
+        { id: 'pccps', name: 'PCCPS', description: 'Настройка акций на ПЦ', status: 'Активен' },
+        { id: 'phoenix', name: 'Проект Феникс', description: 'Платформа лояльности клиентов', status: 'Активен' },
+        { id: 'ares', name: 'Проект Арес', description: 'Инструмент внутреннего аудита безопасности', status: 'В ожидании' },
     ]
 }
 

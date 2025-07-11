@@ -77,7 +77,7 @@ export default function Header({ projects, selectedProject }: HeaderProps) {
           </a>
           <Select onValueChange={handleProjectChange} defaultValue={selectedProject.id}>
             <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Select a project" />
+              <SelectValue placeholder="Выберите проект" />
             </SelectTrigger>
             <SelectContent>
               {projects.map(project => (
@@ -98,13 +98,13 @@ export default function Header({ projects, selectedProject }: HeaderProps) {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuLabel>Моя учетная запись</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => router.push('/projects')}>Manage Projects</DropdownMenuItem>
-              <DropdownMenuItem>Settings</DropdownMenuItem>
-              <DropdownMenuItem>Support</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => router.push('/projects')}>Управление проектами</DropdownMenuItem>
+              <DropdownMenuItem>Настройки</DropdownMenuItem>
+              <DropdownMenuItem>Поддержка</DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Logout</DropdownMenuItem>
+              <DropdownMenuItem>Выйти</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>

@@ -37,7 +37,7 @@ export default function ProductionCalendar({ holidays, className }: ProductionCa
 
   const footer = (
     <div className="mt-4 px-1">
-      <h4 className="text-sm font-medium mb-2 px-3">Holidays in {format(month, 'LLLL yyyy', { locale: ru })}</h4>
+      <h4 className="text-sm font-medium mb-2 px-3">Праздники в {format(month, 'LLLL yyyy', { locale: ru })}</h4>
       <ScrollArea className="h-24">
         <div className="space-y-2 px-3">
           {holidaysByMonth.length > 0 ? holidaysByMonth.map(holiday => (
@@ -46,7 +46,7 @@ export default function ProductionCalendar({ holidays, className }: ProductionCa
                <span>{holiday.name}</span>
             </div>
           )) : (
-            <p className="text-xs text-muted-foreground">No public holidays this month.</p>
+            <p className="text-xs text-muted-foreground">В этом месяце нет государственных праздников.</p>
           )}
         </div>
       </ScrollArea>
@@ -56,8 +56,8 @@ export default function ProductionCalendar({ holidays, className }: ProductionCa
   return (
     <Card className={className}>
       <CardHeader>
-        <CardTitle>Production Calendar</CardTitle>
-        <CardDescription>Russian Federation public holidays</CardDescription>
+        <CardTitle>Производственный календарь</CardTitle>
+        <CardDescription>Государственные праздники РФ</CardDescription>
       </CardHeader>
       <CardContent className="flex justify-center p-0">
         <DayPicker

@@ -19,42 +19,42 @@ export default function StatsCards({ issues }: StatsCardsProps) {
     <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Total Tasks</CardTitle>
+          <CardTitle className="text-sm font-medium">Всего задач</CardTitle>
           <ListTodo className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">{totalTasks}</div>
-          <p className="text-xs text-muted-foreground">All tasks in PCCPS project</p>
+          <p className="text-xs text-muted-foreground">Все задачи в проекте PCCPS</p>
         </CardContent>
       </Card>
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Open Tasks</CardTitle>
+          <CardTitle className="text-sm font-medium">Открытые задачи</CardTitle>
           <Activity className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">{openTasks}</div>
-          <p className="text-xs text-muted-foreground">Tasks currently in progress</p>
+          <p className="text-xs text-muted-foreground">Задачи, находящиеся в работе</p>
         </CardContent>
       </Card>
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Completed Tasks</CardTitle>
+          <CardTitle className="text-sm font-medium">Завершенные задачи</CardTitle>
           <CheckCircle className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">{completedTasks}</div>
-          <p className="text-xs text-muted-foreground">Tasks resolved and closed</p>
+          <p className="text-xs text-muted-foreground">Решенные и закрытые задачи</p>
         </CardContent>
       </Card>
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Connected Teams</CardTitle>
+          <CardTitle className="text-sm font-medium">Подключенные команды</CardTitle>
           <Users className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">+{connectedTeams}</div>
-          <p className="text-xs text-muted-foreground">PCCPS Team</p>
+          <p className="text-xs text-muted-foreground">Команда PCCPS</p>
         </CardContent>
       </Card>
     </div>

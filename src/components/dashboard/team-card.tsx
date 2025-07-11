@@ -12,10 +12,10 @@ type TeamCardProps = {
 }
 
 const teamMembers = [
-    { name: "Andrey Ivanov", role: "Team Lead", avatar: "https://i.pravatar.cc/150?u=a042581f4e29026704d" },
-    { name: "Elena Petrova", role: "Developer", avatar: "https://i.pravatar.cc/150?u=a042581f4e29026704e" },
-    { name: "Sergey Sidorov", role: "QA Engineer", avatar: "https://i.pravatar.cc/150?u=a042581f4e29026704f" },
-    { name: "Olga Smirnova", role: "Analyst", avatar: "https://i.pravatar.cc/150?u=a042581f4e29026704g" },
+    { name: "Андрей Иванов", role: "Team Lead", avatar: "https://i.pravatar.cc/150?u=a042581f4e29026704d" },
+    { name: "Елена Петрова", role: "Разработчик", avatar: "https://i.pravatar.cc/150?u=a042581f4e29026704e" },
+    { name: "Сергей Сидоров", role: "QA Инженер", avatar: "https://i.pravatar.cc/150?u=a042581f4e29026704f" },
+    { name: "Ольга Смирнова", role: "Аналитик", avatar: "https://i.pravatar.cc/150?u=a042581f4e29026704g" },
 ]
 
 export default function TeamCard({ issues, project, className }: TeamCardProps) {
@@ -28,7 +28,7 @@ export default function TeamCard({ issues, project, className }: TeamCardProps) 
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Briefcase className="h-5 w-5" />
-          {project.name} Team
+          Команда {project.name}
         </CardTitle>
         <CardDescription>{project.description}</CardDescription>
       </CardHeader>
@@ -37,33 +37,33 @@ export default function TeamCard({ issues, project, className }: TeamCardProps) 
             <div className="flex items-center space-x-4">
                 <User className="h-6 w-6" />
                 <div>
-                    <p className="text-sm font-medium leading-none">Team Leader</p>
-                    <p className="text-sm text-muted-foreground">Andrey Ivanov</p>
+                    <p className="text-sm font-medium leading-none">Руководитель</p>
+                    <p className="text-sm text-muted-foreground">Андрей Иванов</p>
                 </div>
             </div>
             <div className="flex items-center space-x-4 text-right">
                 <Users className="h-6 w-6" />
                 <div>
-                    <p className="text-sm font-medium leading-none">Team Size</p>
-                    <p className="text-sm text-muted-foreground">12 People</p>
+                    <p className="text-sm font-medium leading-none">Размер команды</p>
+                    <p className="text-sm text-muted-foreground">12 человек</p>
                 </div>
             </div>
         </div>
 
         <div>
-          <h3 className="text-sm font-medium mb-2">Team Workload</h3>
+          <h3 className="text-sm font-medium mb-2">Загруженность команды</h3>
           <div className="flex items-center justify-between text-sm text-muted-foreground">
             <div className="flex items-center gap-2">
               <Activity className="h-4 w-4" />
-              <span>{openTasks} open tasks</span>
+              <span>{openTasks} открытых задач</span>
             </div>
-            <span>{Math.round(workloadPercentage)}% done</span>
+            <span>{Math.round(workloadPercentage)}% выполнено</span>
           </div>
           <Progress value={workloadPercentage} className="mt-2 h-2" />
         </div>
         
         <div>
-            <h3 className="text-sm font-medium mb-4">Team Members</h3>
+            <h3 className="text-sm font-medium mb-4">Участники команды</h3>
             <div className="space-y-4">
                 {teamMembers.map((member, index) => (
                     <div key={index} className="flex items-center">

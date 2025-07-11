@@ -18,20 +18,20 @@ export default async function ProjectsPage() {
       <main className="flex-1 p-4 sm:p-6 md:p-8">
         <Card>
           <CardHeader>
-            <CardTitle>Projects</CardTitle>
+            <CardTitle>Проекты</CardTitle>
             <CardDescription>
-              Manage your projects here.
+              Управляйте вашими проектами здесь.
             </CardDescription>
           </CardHeader>
           <CardContent>
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Name</TableHead>
-                  <TableHead>Description</TableHead>
-                  <TableHead>Status</TableHead>
+                  <TableHead>Название</TableHead>
+                  <TableHead>Описание</TableHead>
+                  <TableHead>Статус</TableHead>
                   <TableHead>
-                    <span className="sr-only">Actions</span>
+                    <span className="sr-only">Действия</span>
                   </TableHead>
                 </TableRow>
               </TableHeader>
@@ -41,20 +41,20 @@ export default async function ProjectsPage() {
                     <TableCell className="font-medium">{project.name}</TableCell>
                     <TableCell>{project.description}</TableCell>
                     <TableCell>
-                      <Badge variant={project.status === 'Active' ? 'default' : 'secondary'}>{project.status}</Badge>
+                      <Badge variant={project.status === 'Активен' ? 'default' : 'secondary'}>{project.status}</Badge>
                     </TableCell>
                     <TableCell>
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                           <Button aria-haspopup="true" size="icon" variant="ghost">
                             <MoreHorizontal className="h-4 w-4" />
-                            <span className="sr-only">Toggle menu</span>
+                            <span className="sr-only">Открыть меню</span>
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                          <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                          <DropdownMenuItem>Edit</DropdownMenuItem>
-                          <DropdownMenuItem>Delete</DropdownMenuItem>
+                          <DropdownMenuLabel>Действия</DropdownMenuLabel>
+                          <DropdownMenuItem>Редактировать</DropdownMenuItem>
+                          <DropdownMenuItem>Удалить</DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </TableCell>

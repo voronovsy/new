@@ -27,15 +27,15 @@ export default function TaskCharts({ issues }: TaskChartsProps) {
 
   const chartConfig = {
     count: {
-      label: "Tasks",
+      label: "Задачи",
     },
   };
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Tasks by Status</CardTitle>
-        <CardDescription>A breakdown of tasks in their current workflow status.</CardDescription>
+        <CardTitle>Задачи по статусам</CardTitle>
+        <CardDescription>Распределение задач по их текущим статусам в рабочем процессе.</CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig} className="min-h-[200px] w-full">

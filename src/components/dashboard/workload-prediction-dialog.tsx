@@ -38,7 +38,7 @@ export function WorkloadPredictionDialog({ isOpen, onClose, task }: WorkloadPred
       if (result.success) {
         setPrediction(result.data);
       } else {
-        setError(result.error || "An unexpected error occurred.");
+        setError(result.error || "Произошла непредвиденная ошибка.");
       }
     } catch (e) {
         setError(e instanceof Error ? e.message : String(e))
@@ -63,7 +63,7 @@ export function WorkloadPredictionDialog({ isOpen, onClose, task }: WorkloadPred
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 font-headline text-2xl">
             <Bot className="h-6 w-6 text-accent" />
-            AI Workload Prediction
+            AI Прогноз трудозатрат
           </DialogTitle>
           <DialogDescription>
             {task.key}: {task.fields.summary}
@@ -73,23 +73,23 @@ export function WorkloadPredictionDialog({ isOpen, onClose, task }: WorkloadPred
             <div className="flex flex-col gap-4">
                 <Card>
                     <CardHeader>
-                        <CardTitle className="text-lg">Task Details</CardTitle>
+                        <CardTitle className="text-lg">Детали задачи</CardTitle>
                     </CardHeader>
                     <CardContent className="text-sm space-y-2">
-                        <p><strong>Type:</strong> {task.fields.issuetype.name}</p>
-                        <p><strong>Status:</strong> <Badge variant="outline">{task.fields.status.name}</Badge></p>
-                        <p><strong>Priority:</strong> <Badge variant={task.fields.priority?.name === 'High' ? 'destructive' : 'secondary'}>{task.fields.priority?.name || 'N/A'}</Badge></p>
-                        <p><strong>Complexity:</strong> {task.fields.customfield_25904?.value || 'N/A'}</p>
+                        <p><strong>Тип:</strong> {task.fields.issuetype.name}</p>
+                        <p><strong>Статус:</strong> <Badge variant="outline">{task.fields.status.name}</Badge></p>
+                        <p><strong>Приоритет:</strong> <Badge variant={task.fields.priority?.name === 'High' ? 'destructive' : 'secondary'}>{task.fields.priority?.name || 'N/A'}</Badge></p>
+                        <p><strong>Сложность:</strong> {task.fields.customfield_25904?.value || 'N/A'}</p>
                     </CardContent>
                 </Card>
                 <Button onClick={handleGeneratePrediction} disabled={isLoading}>
                     {isLoading ? (
                         <>
                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                            Generating...
+                            Генерация...
                         </>
                     ) : (
-                        "Generate Prediction"
+                        "Сгенерировать прогноз"
                     )}
                 </Button>
             </div>
@@ -99,7 +99,7 @@ export function WorkloadPredictionDialog({ isOpen, onClose, task }: WorkloadPred
                         <CardHeader>
                             <CardTitle className="text-destructive flex items-center gap-2 text-lg">
                                 <AlertTriangle className="h-5 w-5" />
-                                Prediction Error
+                                Ошибка прогнозирования
                             </CardTitle>
                         </CardHeader>
                         <CardContent>
@@ -112,7 +112,7 @@ export function WorkloadPredictionDialog({ isOpen, onClose, task }: WorkloadPred
                         <Card>
                             <CardHeader className="flex-row items-center gap-2 space-y-0">
                                 <Clock className="h-5 w-5 text-muted-foreground" />
-                                <CardTitle className="text-lg">Estimated Workload</CardTitle>
+                                <CardTitle className="text-lg">Оценочные трудозатраты</CardTitle>
                             </CardHeader>
                             <CardContent>
                                 <p className="text-2xl font-bold">{prediction.estimatedWorkload}</p>
@@ -121,16 +121,16 @@ export function WorkloadPredictionDialog({ isOpen, onClose, task }: WorkloadPred
                         <Card>
                             <CardHeader className="flex-row items-center gap-2 space-y-0">
                                 <Calendar className="h-5 w-5 text-muted-foreground" />
-                                <CardTitle className="text-lg">Estimated Completion Date</CardTitle>
+                                <CardTitle className="text-lg">Предполагаемая дата завершения</CardTitle>
                             </CardHeader>
                             <CardContent>
-                                <p className="text-2xl font-bold">{new Date(prediction.estimatedCompletionDate).toLocaleDateString()}</p>
+                                <p className="text-2xl font-bold">{new Date(prediction.estimatedCompletionDate).toLocaleDateString('ru-RU')}</p>
                             </CardContent>
                         </Card>
                          <Card>
                             <CardHeader className="flex-row items-center gap-2 space-y-0">
                                 <AlertTriangle className="h-5 w-5 text-muted-foreground" />
-                                <CardTitle className="text-lg">Potential Bottlenecks</CardTitle>
+                                <CardTitle className="text-lg">Потенциальные риски</CardTitle>
                             </CardHeader>
                             <CardContent>
                                 <p className="text-sm">{prediction.potentialBottlenecks}</p>
@@ -139,7 +139,7 @@ export function WorkloadPredictionDialog({ isOpen, onClose, task }: WorkloadPred
                          <Card>
                             <CardHeader className="flex-row items-center gap-2 space-y-0">
                                 <Lightbulb className="h-5 w-5 text-muted-foreground" />
-                                <CardTitle className="text-lg">Process Improvements</CardTitle>
+                                <CardTitle className="text-lg">Улучшения процесса</CardTitle>
                             </CardHeader>
                             <CardContent>
                                 <p className="text-sm">{prediction.processImprovementOpportunities}</p>
@@ -148,7 +148,7 @@ export function WorkloadPredictionDialog({ isOpen, onClose, task }: WorkloadPred
                     </div>
                 ) : (
                     <div className="flex items-center justify-center h-full rounded-lg border border-dashed text-muted-foreground">
-                        <p>Prediction results will appear here</p>
+                        <p>Результаты прогноза появятся здесь</p>
                     </div>
                 )}
             </div>

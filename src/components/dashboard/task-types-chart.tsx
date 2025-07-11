@@ -40,8 +40,8 @@ export default function TaskTypesChart({ issues }: TaskTypesChartProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Tasks by Type</CardTitle>
-        <CardDescription>Distribution of different task types.</CardDescription>
+        <CardTitle>Задачи по типам</CardTitle>
+        <CardDescription>Распределение различных типов задач.</CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig} className="min-h-[200px] w-full">

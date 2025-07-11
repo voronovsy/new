@@ -116,7 +116,7 @@ export interface Project {
     id: string;
     name: string;
     description: string;
-    status: 'Active' | 'On Hold' | 'Completed';
+    status: 'Активен' | 'В ожидании' | 'Завершен';
 }
 
 export type PredictWorkloadAndTaskCompletionOutput = {
