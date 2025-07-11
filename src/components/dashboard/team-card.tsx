@@ -3,10 +3,11 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Users, User, Briefcase, Activity } from "lucide-react"
 import { Progress } from "@/components/ui/progress"
-import type { JiraIssue } from "@/lib/types"
+import type { JiraIssue, Project } from "@/lib/types"
 
 type TeamCardProps = {
     issues: JiraIssue[];
+    project: Project;
     className?: string;
 }
 
@@ -17,7 +18,7 @@ const teamMembers = [
     { name: "Olga Smirnova", role: "Analyst", avatar: "https://i.pravatar.cc/150?u=a042581f4e29026704g" },
 ]
 
-export default function TeamCard({ issues, className }: TeamCardProps) {
+export default function TeamCard({ issues, project, className }: TeamCardProps) {
     const openTasks = issues.filter(issue => !issue.fields.resolutiondate).length;
     const totalTasks = issues.length;
     const workloadPercentage = totalTasks > 0 ? ((totalTasks - openTasks) / totalTasks) * 100 : 0;
@@ -27,9 +28,9 @@ export default function TeamCard({ issues, className }: TeamCardProps) {
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Briefcase className="h-5 w-5" />
-          PCCPS Team
+          {project.name} Team
         </CardTitle>
-        <CardDescription>Настройка акций на ПЦ</CardDescription>
+        <CardDescription>{project.description}</CardDescription>
       </CardHeader>
       <CardContent className="grid gap-6">
         <div className="flex items-center justify-between space-x-4">

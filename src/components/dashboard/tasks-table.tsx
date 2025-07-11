@@ -35,11 +35,12 @@ import {
 } from "@/components/ui/table"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import type { JiraIssue } from "@/lib/types"
+import type { JiraIssue, Project } from "@/lib/types"
 import { WorkloadPredictionDialog } from "./workload-prediction-dialog"
 
 type TasksTableProps = {
   issues: JiraIssue[];
+  project: Project;
 };
 
 const priorityVariantMap: { [key: string]: "default" | "secondary" | "destructive" | "outline" } = {
@@ -54,7 +55,7 @@ const getPriorityVariant = (priorityName?: string) => {
     return priorityName ? priorityVariantMap[priorityName] || 'outline' : 'outline';
 };
 
-export default function TasksTable({ issues }: TasksTableProps) {
+export default function TasksTable({ issues, project }: TasksTableProps) {
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
@@ -82,7 +83,7 @@ export default function TasksTable({ issues }: TasksTableProps) {
     if (link.download !== undefined) {
       const url = URL.createObjectURL(blob);
       link.setAttribute("href", url);
-      link.setAttribute("download", "pccps_tasks.csv");
+      link.setAttribute("download", `${project.name}_tasks.csv`);
       link.style.visibility = 'hidden';
       document.body.appendChild(link);
       link.click();
@@ -206,7 +207,7 @@ export default function TasksTable({ issues }: TasksTableProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>PCCPS Tasks</CardTitle>
+        <CardTitle>{project.name} Tasks</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="w-full">

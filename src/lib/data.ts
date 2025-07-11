@@ -1,9 +1,18 @@
 
 import fs from 'fs/promises';
 import path from 'path';
-import type { JiraIssue, PccpsTask, Holiday } from './types';
+import type { JiraIssue, PccpsTask, Holiday, Project } from './types';
 
 const dataPath = path.join(process.cwd(), 'data');
+
+// A mock function to get projects. In a real app, this would fetch from a database.
+export async function getProjects(): Promise<Project[]> {
+    return [
+        { id: 'pccps', name: 'PCCPS', description: 'Настройка акций на ПЦ', status: 'Active' },
+        { id: 'phoenix', name: 'Project Phoenix', description: 'Customer loyalty platform', status: 'Active' },
+        { id: 'ares', name: 'Project Ares', description: 'Internal security audit tool', status: 'On Hold' },
+    ]
+}
 
 export async function getJiraIssues(): Promise<JiraIssue[]> {
   const filePath = path.join(dataPath, 'search.json');

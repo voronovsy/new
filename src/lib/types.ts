@@ -112,6 +112,12 @@ export interface Holiday {
     name: string;
 }
 
+export interface Project {
+    id: string;
+    name: string;
+    description: string;
+    status: 'Active' | 'On Hold' | 'Completed';
+}
 
 export type PredictWorkloadAndTaskCompletionOutput = {
     estimatedWorkload: string;
