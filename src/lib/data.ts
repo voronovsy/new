@@ -1,4 +1,5 @@
 
+
 import fs from 'fs/promises';
 import path from 'path';
 import type { JiraIssue, PccpsTask, Holiday, Project, TeamMember, AssignedJiraIssue } from './types';
@@ -45,7 +46,6 @@ export async function getJiraIssues(): Promise<AssignedJiraIssue[]> {
   try {
     const fileContents = await fs.readFile(filePath, 'utf8');
     const data = JSON.parse(fileContents);
-    // return data.issues as JiraIssue[];
     return assignIssues(data.issues as JiraIssue[]);
   } catch (error) {
     console.error('Failed to read or parse search.json:', error);
