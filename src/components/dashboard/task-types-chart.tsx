@@ -5,7 +5,7 @@ import * as React from 'react';
 import type { JiraIssue } from '@/lib/types';
 import { Pie, PieChart, Cell, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { ChartContainer, ChartTooltipContent } from "@/components/ui/chart";
+import { ChartContainer, ChartTooltipContent, ChartLegendContent } from "@/components/ui/chart";
 
 type TaskTypesChartProps = {
   issues: JiraIssue[];
@@ -37,9 +37,10 @@ export default function TaskTypesChart({ issues }: TaskTypesChartProps) {
   }, [issues]);
   
   const chartConfig = tasksByType.reduce((acc, cur, i) => {
+    const key = cur.name.replace(/[^a-zA-Z0-9]/g, ''); // Sanitize key for CSS variable
     return {
         ...acc,
-        [cur.name]: {
+        [key]: {
             label: cur.name,
             color: COLORS[i % COLORS.length]
         }
@@ -60,20 +61,21 @@ export default function TaskTypesChart({ issues }: TaskTypesChartProps) {
                 cursor={{ fill: 'hsl(var(--muted))' }}
                 content={<ChartTooltipContent nameKey="name" hideLabel />}
                 />
-                <Legend wrapperStyle={{ fontSize: '14px' }} />
                 <Pie
-                data={tasksByType}
-                dataKey="value"
-                nameKey="name"
-                cx="50%"
-                cy="50%"
-                outerRadius={100}
-                strokeWidth={2}
+                    data={tasksByType}
+                    dataKey="value"
+                    nameKey="name"
+                    cx="50%"
+                    cy="50%"
+                    outerRadius={100}
+                    strokeWidth={2}
+                    labelLine={false}
                 >
-                {tasksByType.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                ))}
+                    {tasksByType.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    ))}
                 </Pie>
+                <Legend content={<ChartLegendContent nameKey="name" />} />
             </PieChart>
             </ResponsiveContainer>
         </ChartContainer>
