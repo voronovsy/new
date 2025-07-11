@@ -50,31 +50,19 @@ const priorityVariantMap: { [key: string]: "default" | "secondary" | "destructiv
     'Low': 'outline',
     'Lowest': 'outline'
 };
-
 const getPriorityVariant = (priorityName?: string) => {
     return priorityName ? priorityVariantMap[priorityName] || 'outline' : 'outline';
 };
 
-const statusVariantMap: { [key: string]: "default" | "secondary" | "destructive" | "outline" } = {
-    'Выполнено': 'default',
-    'In Progress': 'secondary',
-    'Настройка': 'secondary',
-    'В разработке': 'secondary',
-    'Тестирование': 'secondary',
-    'Аналитика': 'secondary',
-    'Done': 'default',
+const statusColorMap: { [key: string]: string } = {
+    'Настройка': 'bg-blue-500',
+    'Выполнено': 'bg-green-500',
+    'В разработке': 'bg-yellow-500',
+    'Тестирование': 'bg-purple-500',
+    'Аналитика': 'bg-indigo-500',
 };
-
-const getStatusVariant = (statusName?: string) => {
-    if (!statusName) return 'outline';
-    // Handle Russian and English variants of status categories
-    if (statusName.toLowerCase().includes('done') || statusName.toLowerCase().includes('выполнено')) {
-        return 'default';
-    }
-    if (['in progress', 'настройка', 'в разработке', 'тестирование', 'аналитика'].includes(statusName.toLowerCase())) {
-        return 'secondary';
-    }
-    return statusVariantMap[statusName] || 'outline';
+const getStatusClass = (statusName?: string) => {
+    return statusName ? statusColorMap[statusName] || 'bg-gray-500' : 'bg-gray-500';
 };
 
 export default function TasksTable({ issues, project }: TasksTableProps) {
@@ -156,7 +144,12 @@ export default function TasksTable({ issues, project }: TasksTableProps) {
     {
       accessorKey: "fields.status.name",
       header: "Статус",
-      cell: ({ row }) => <Badge variant={getStatusVariant(row.original.fields.status.name)}>{row.original.fields.status.name}</Badge>,
+      cell: ({ row }) => (
+          <div className="flex items-center gap-2">
+              <span className={`h-2 w-2 rounded-full ${getStatusClass(row.original.fields.status.name)}`}></span>
+              <span>{row.original.fields.status.name}</span>
+          </div>
+      ),
     },
     {
         accessorKey: "fields.priority.name",
@@ -309,6 +302,7 @@ export default function TasksTable({ issues, project }: TasksTableProps) {
                     <TableRow
                       key={row.id}
                       data-state={row.getIsSelected() && "selected"}
+                      className="transition-colors hover:bg-muted/80"
                     >
                       {row.getVisibleCells().map((cell) => (
                         <TableCell key={cell.id}>

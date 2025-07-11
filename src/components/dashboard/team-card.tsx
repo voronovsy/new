@@ -6,22 +6,17 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Users, User, Briefcase, Activity } from "lucide-react"
 import { Progress } from "@/components/ui/progress"
-import type { JiraIssue, Project } from "@/lib/types"
+import type { JiraIssue, Project, TeamMember } from "@/lib/types"
+
 
 type TeamCardProps = {
     issues: JiraIssue[];
     project: Project;
+    teamMembers: TeamMember[];
     className?: string;
 }
 
-const teamMembers = [
-    { id: 'andrey-ivanov', name: "Андрей Иванов", role: "Team Lead", avatar: "https://i.pravatar.cc/150?u=a042581f4e29026704d" },
-    { id: 'elena-petrova', name: "Елена Петрова", role: "Разработчик", avatar: "https://i.pravatar.cc/150?u=a042581f4e29026704e" },
-    { id: 'sergey-sidorov', name: "Сергей Сидоров", role: "QA Инженер", avatar: "https://i.pravatar.cc/150?u=a042581f4e29026704f" },
-    { id: 'olga-smirnova', name: "Ольга Смирнова", role: "Аналитик", avatar: "https://i.pravatar.cc/150?u=a042581f4e29026704g" },
-]
-
-export default function TeamCard({ issues, project, className }: TeamCardProps) {
+export default function TeamCard({ issues, project, teamMembers, className }: TeamCardProps) {
     const openTasks = issues.filter(issue => !issue.fields.resolutiondate).length;
     const totalTasks = issues.length;
     const workloadPercentage = totalTasks > 0 ? ((totalTasks - openTasks) / totalTasks) * 100 : 0;
@@ -69,7 +64,7 @@ export default function TeamCard({ issues, project, className }: TeamCardProps) 
             <h3 className="text-sm font-medium mb-4">Участники команды</h3>
             <div className="space-y-4">
                 {teamMembers.map((member) => (
-                    <Link href={`/employees/${member.id}`} key={member.id} className="flex items-center hover:bg-muted/50 p-2 rounded-lg -m-2 transition-colors">
+                    <Link href={`/employees/${member.id}`} key={member.id} className="flex items-center hover:bg-muted/50 p-2 rounded-lg -m-2 transition-all duration-200 ease-in-out hover:translate-x-1">
                         <Avatar className="h-9 w-9">
                             <AvatarImage src={member.avatar} alt={member.name} />
                             <AvatarFallback>{member.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>

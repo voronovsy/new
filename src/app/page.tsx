@@ -1,5 +1,5 @@
 
-import { getJiraIssues, getHolidays, getProjects } from '@/lib/data';
+import { getJiraIssues, getHolidays, getProjects, teamMembers } from '@/lib/data';
 import Header from '@/components/dashboard/header';
 import StatsCards from '@/components/dashboard/stats-cards';
 import TeamCard from '@/components/dashboard/team-card';
@@ -24,7 +24,7 @@ export default async function DashboardPage({ searchParams }: { searchParams?: {
         <StatsCards issues={issues} />
         <div className="grid grid-cols-1 items-start gap-4 md:gap-8 lg:grid-cols-3">
           <div className="grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-1">
-            <TeamCard issues={issues} project={selectedProject} />
+            <TeamCard issues={issues} project={selectedProject} teamMembers={teamMembers} />
             <ProductionCalendar holidays={holidays} />
           </div>
           <div className="grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-2">
