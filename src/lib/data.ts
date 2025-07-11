@@ -12,14 +12,23 @@ export const teamMembers: TeamMember[] = [
     { id: 'olga-smirnova', name: "Ольга Смирнова", role: "Аналитик", avatar: "https://i.pravatar.cc/150?u=a042581f4e29026704g" },
 ];
 
-// A mock function to get projects. In a real app, this would fetch from a database.
 export async function getProjects(): Promise<Project[]> {
-    return [
-        { id: 'pccps', name: 'PCCPS', description: 'Настройка акций на ПЦ', status: 'Активен' },
-        { id: 'phoenix', name: 'Проект Феникс', description: 'Платформа лояльности клиентов', status: 'Активен' },
-        { id: 'ares', name: 'Проект Арес', description: 'Инструмент внутреннего аудита безопасности', status: 'В ожидании' },
-    ]
+    const filePath = path.join(dataPath, 'projects.json');
+    try {
+        const fileContents = await fs.readFile(filePath, 'utf8');
+        const data = JSON.parse(fileContents);
+        return data as Project[];
+    } catch (error) {
+        console.error('Failed to read or parse projects.json:', error);
+        // Fallback to default projects if file is missing or invalid
+        return [
+            { id: 'pccps', name: 'PCCPS', description: 'Настройка акций на ПЦ', status: 'Активен' },
+            { id: 'phoenix', name: 'Проект Феникс', description: 'Платформа лояльности клиентов', status: 'Активен' },
+            { id: 'ares', name: 'Проект Арес', description: 'Инструмент внутреннего аудита безопасности', status: 'В ожидании' },
+        ];
+    }
 }
+
 
 // In a real app, the assignee would come from Jira.
 // Here we mock it by assigning tasks to team members in a round-robin fashion.
