@@ -17,10 +17,9 @@ type ProductionCalendarProps = {
 }
 
 export default function ProductionCalendar({ holidays, className }: ProductionCalendarProps) {
-  const [month, setMonth] = React.useState<Date>(new Date(2024, 0, 1));
+  const [month, setMonth] = React.useState<Date>(new Date());
   
   const holidayDates = React.useMemo(() => holidays.map(h => {
-    // Adjust for timezone offset to prevent date shifting
     const date = new Date(h.date);
     const userTimezoneOffset = date.getTimezoneOffset() * 60000;
     return new Date(date.getTime() + userTimezoneOffset);
