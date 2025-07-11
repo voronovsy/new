@@ -4,36 +4,10 @@ import Header from '@/components/dashboard/header';
 import { notFound } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Badge } from '@/components/ui/badge';
 import { ListTodo, CheckCircle, Activity, Users, Briefcase } from 'lucide-react';
-import type { AssignedJiraIssue } from '@/lib/types';
+import type { AssignedJiraIssue, TeamMember } from '@/lib/types';
 import Link from 'next/link';
-
-const priorityVariantMap: { [key: string]: "default" | "secondary" | "destructive" | "outline" } = {
-    'Highest': 'destructive',
-    'High': 'destructive',
-    'Medium': 'secondary',
-    'Low': 'outline',
-    'Lowest': 'outline'
-};
-const getPriorityVariant = (priorityName?: string) => {
-    return priorityName ? priorityVariantMap[priorityName] || 'outline' : 'outline';
-};
-
-const statusColorMap: { [key: string]: string } = {
-    'Настройка': 'bg-blue-500',
-    'Выполнено': 'bg-green-500',
-    'В разработке': 'bg-yellow-500',
-    'Тестирование': 'bg-purple-500',
-    'Аналитика': 'bg-indigo-500',
-    'В работе': 'bg-cyan-500',
-    'Открыта': 'bg-gray-500',
-    'Проверка': 'bg-pink-500',
-};
-const getStatusClass = (statusName?: string) => {
-    return statusName ? statusColorMap[statusName] || 'bg-gray-500' : 'bg-gray-500';
-};
+import WorkloadOverview from '@/components/teams/workload-overview';
 
 export default async function TeamPage({ params }: { params: { id: string } }) {
   const allProjects = await getProjects();
@@ -47,12 +21,24 @@ export default async function TeamPage({ params }: { params: { id: string } }) {
   
   // For now, all team members are considered part of the PCCPS team
   // and all issues are considered part of this project.
-  // This can be refined when project/team data is more structured.
   const teamIssues = allIssues;
 
   const totalTasks = teamIssues.length;
   const completedTasks = teamIssues.filter(issue => issue.fields.resolutiondate).length;
   const openTasks = totalTasks - completedTasks;
+
+  const memberWorkload = teamMembers.map(member => {
+    const assignedIssues = allIssues.filter(issue => issue.assignee.id === member.id);
+    const completed = assignedIssues.filter(issue => issue.fields.resolutiondate).length;
+    const total = assignedIssues.length;
+    const open = total - completed;
+    return {
+      member,
+      total,
+      open,
+      completed,
+    };
+  });
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-background">
@@ -126,57 +112,7 @@ export default async function TeamPage({ params }: { params: { id: string } }) {
                     </Card>
                 </div>
                 <div className="lg:col-span-2">
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>Задачи команды</CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                            <Table>
-                                <TableHeader>
-                                    <TableRow>
-                                    <TableHead>Ключ</TableHead>
-                                    <TableHead>Название</TableHead>
-                                    <TableHead>Исполнитель</TableHead>
-                                    <TableHead>Статус</TableHead>
-                                    <TableHead>Приоритет</TableHead>
-                                    </TableRow>
-                                </TableHeader>
-                                <TableBody>
-                                    {teamIssues.map((issue: AssignedJiraIssue) => (
-                                        <TableRow key={issue.id}>
-                                            <TableCell className="font-medium">{issue.key}</TableCell>
-                                            <TableCell>{issue.fields.summary}</TableCell>
-                                            <TableCell>
-                                                <div className="flex items-center gap-2">
-                                                    <Avatar className="h-6 w-6 text-xs">
-                                                        <AvatarImage src={issue.assignee.avatar} alt={issue.assignee.name} />
-                                                        <AvatarFallback>{issue.assignee.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
-                                                    </Avatar>
-                                                    <span className="text-xs">{issue.assignee.name}</span>
-                                                </div>
-                                            </TableCell>
-                                            <TableCell>
-                                                <div className="flex items-center gap-2">
-                                                    <span className={`h-2 w-2 rounded-full ${getStatusClass(issue.fields.status.name)}`}></span>
-                                                    <span>{issue.fields.status.name}</span>
-                                                </div>
-                                            </TableCell>
-                                            <TableCell>
-                                                <Badge variant={getPriorityVariant(issue.fields.priority?.name)}>{issue.fields.priority?.name || 'N/A'}</Badge>
-                                            </TableCell>
-                                        </TableRow>
-                                    ))}
-                                    {teamIssues.length === 0 && (
-                                        <TableRow>
-                                            <TableCell colSpan={5} className="h-24 text-center">
-                                            Нет назначенных задач.
-                                            </TableCell>
-                                        </TableRow>
-                                    )}
-                                </TableBody>
-                            </Table>
-                        </CardContent>
-                    </Card>
+                   <WorkloadOverview memberWorkload={memberWorkload} />
                 </div>
             </div>
         </div>
