@@ -13,7 +13,6 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Badge } from '@/components/ui/badge';
 import { ListTodo, CheckCircle, Activity, Calendar as CalendarIcon } from 'lucide-react';
 import type { AssignedJiraIssue, TeamMember, Project } from '@/lib/types';
-import { getProjects } from '@/lib/data';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
@@ -44,22 +43,14 @@ const getStatusClass = (statusName?: string) => {
 interface EmployeePageClientProps {
     employee: TeamMember;
     initialIssues: AssignedJiraIssue[];
+    projects: Project[];
 }
 
-export default function EmployeePageClient({ employee, initialIssues }: EmployeePageClientProps) {
-    const [projects, setProjects] = React.useState<Project[]>([]);
+export default function EmployeePageClient({ employee, initialIssues, projects }: EmployeePageClientProps) {
     const [date, setDate] = React.useState<DateRange | undefined>({
         from: addDays(new Date(), -30),
         to: new Date(),
     });
-
-    React.useEffect(() => {
-        async function fetchProjects() {
-            const fetchedProjects = await getProjects();
-            setProjects(fetchedProjects);
-        }
-        fetchProjects();
-    }, []);
 
     const selectedProject = projects[0];
 
@@ -231,4 +222,3 @@ export default function EmployeePageClient({ employee, initialIssues }: Employee
         </div>
     );
 }
-
