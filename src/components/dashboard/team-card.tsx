@@ -2,11 +2,12 @@
 "use client"
 
 import Link from "next/link"
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Users, User, Briefcase, Activity } from "lucide-react"
+import { Users, User, Briefcase, Activity, ArrowRight } from "lucide-react"
 import { Progress } from "@/components/ui/progress"
 import type { JiraIssue, Project, TeamMember } from "@/lib/types"
+import { Button } from "../ui/button"
 
 
 type TeamCardProps = {
@@ -78,6 +79,14 @@ export default function TeamCard({ issues, project, teamMembers, className }: Te
             </div>
         </div>
       </CardContent>
+      <CardFooter>
+        <Button asChild variant="outline" className="w-full">
+            <Link href={`/teams/${project.id}`}>
+                Перейти к команде
+                <ArrowRight className="ml-2 h-4 w-4" />
+            </Link>
+        </Button>
+      </CardFooter>
     </Card>
   )
 }
