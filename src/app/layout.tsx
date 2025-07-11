@@ -2,6 +2,7 @@
 import type {Metadata} from 'next';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster"
+import AssistantChat from '@/components/assistant/assistant-chat';
 
 export const metadata: Metadata = {
   title: 'EffortVision',
@@ -22,6 +23,7 @@ export default function RootLayout({
       </head>
       <body className="font-body antialiased">
         {children}
+        <AssistantChat />
         <Toaster />
       </body>
     </html>
